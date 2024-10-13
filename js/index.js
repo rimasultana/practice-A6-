@@ -78,8 +78,8 @@ const displayPetsCardData = (pets) => {
               </div>
               <hr class='mx-2'/>
                   <div class="flex justify-between items-center gap-3 px-2 py-2 ">
-                    <button class="btn border border-gray-200"><i class="fa-regular fa-thumbs-up"></i></button>
-                    <button class="btn border border-gray-200 text-green-300">Adopt</button>
+                    <button onclick="handelLikeButton('${image}')" class="btn border border-gray-200"><i class="fa-regular fa-thumbs-up"></i></button>
+                    <button onclick="countModal(this)" class="btn border border-gray-200 text-green-300">Adopt</button>
                     <button class="btn border border-gray-200 text-green-300">Details</button>
                   </div>
                 </div>
@@ -96,6 +96,60 @@ const loadCategoryHandelarData = async (category) => {
   const data = await res.json();
   displayPetsCardData(data.data);
 };
+
+// Like button
+
+const handelLikeButton =(img)=>{
+    const imgContainer = document.getElementById('img-container');
+    const div = document.createElement('div');
+    div.innerHTML = `
+    <div>
+    <img class='w-28 object-cover rounded-md' src='${img}'/>
+    </div>
+    `;
+    imgContainer.append(div);
+}
+
+// count-modal
+function countModal(button) {
+    button.innerHTML = "Adopted";
+    button.disabled = true;
+    button.classList.add("bg-gray-400", "text-white");
+    let timerInterval;
+    let countdown = 3; 
+  
+    Swal.fire({
+      html: `
+        <div class="flex items-center flex-col"> 
+          <img src="https://img.icons8.com/?size=80&id=aUiThmwNs5sO&format=png" style="width: 80px; height: auto;" />  
+          <br/>
+          <strong class="text-3xl font-bold">Congratulations!</strong><br/>
+          Adoption process is starting for your pet.<br/>
+          <b class="text-2xl text-primary">${countdown}</b>
+        </div>
+      `,
+      timer: 3000,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      didOpen: () => {
+        const timer = Swal.getPopup().querySelector("b");
+  
+        timerInterval = setInterval(() => {
+          countdown--;
+          timer.textContent = countdown > 0 ? countdown : 0;
+  
+          if (countdown <= 0) {
+            clearInterval(timerInterval);
+          }
+        }, 1000);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then((result) => {
+      console.log("Adoption process is starting for your pet.");
+    });
+  }
 
 loadCategoryData();
 loadPetsCardData();

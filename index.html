@@ -16,6 +16,8 @@
       src="https://kit.fontawesome.com/da72d6e058.js"
       crossorigin="anonymous"
     ></script>
+    <!-- sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <main>
@@ -47,19 +49,23 @@
             id="card-container"
             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-[80%] border-gray-200 border"
           ></div>
-            <div id="noData" class="w-4/5 mx-auto border border-gray-200  flex flex-col justify-center items-center">
-              <img class="w-40" src="images/error.webp" alt="" />
-              <h2 class="font-bold text-2xl">No Information Available</h2>
-              <p>
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when <br> looking at its layout.
-                The point of using Lorem Ipsum is that it has a.
-              </p>
-            </div>
-          
+          <div
+            id="noData"
+            class="w-4/5 mx-auto border border-gray-200 flex flex-col justify-center items-center"
+          >
+            <img class="w-40" src="images/error.webp" alt="" />
+            <h2 class="font-bold text-2xl">No Information Available</h2>
+            <p>
+              It is a long established fact that a reader will be distracted by
+              the readable content of a page when <br />
+              looking at its layout. The point of using Lorem Ipsum is that it
+              has a.
+            </p>
+          </div>
+
           <div
             id="img-container"
-            class="h-[450px] border border-gray-200 w-[20%]"
+            class="border border-gray-200 w-[20%] grid grid-cols-2"
           ></div>
         </div>
       </section>
