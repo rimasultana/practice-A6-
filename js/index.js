@@ -223,5 +223,27 @@ function countModal(button) {
     });
   }
 
+  async function handleSortOrder(order = "desc") {
+   
+    const res = await fetch(
+      "https://openapi.programming-hero.com/api/peddy/pets"
+    );
+    const data = await res.json();
+    const pets = data.pets;
+    pets.sort((a, b) => {
+      const priceA = a.price ?? 0;
+      const priceB = b.price ?? 0;
+  
+      if (order === "asc") {
+        return priceA - priceB;
+      } else {
+        return priceB - priceA;
+      }
+    });
+    setTimeout(() => {
+        displayPetsCardData(pets);
+    }, 2000);
+  }
+
 loadCategoryData();
 loadPetsCardData();
