@@ -43,7 +43,7 @@ const displayPetsCardData = (pets) => {
 
   pets.forEach((pet) => {
     console.log(pet);
-    const { category, date_of_birth, price, image, breed, gender, pet_name } =
+    const { category, date_of_birth, price, image, breed, gender, pet_name ,petId } =
       pet;
     const card = document.createElement("div");
     card.classList = "card p-5 border border-gray-100 ";
@@ -80,7 +80,7 @@ const displayPetsCardData = (pets) => {
                   <div class="flex justify-between items-center gap-3 px-2 py-2 ">
                     <button onclick="handelLikeButton('${image}')" class="btn border border-gray-200"><i class="fa-regular fa-thumbs-up"></i></button>
                     <button onclick="countModal(this)" class="btn border border-gray-200 text-green-300">Adopt</button>
-                    <button class="btn border border-gray-200 text-green-300">Details</button>
+                    <button onclick="loadDetailsModalData('${petId}')" class="btn border border-gray-200 text-green-300">Details</button>
                   </div>
                 </div>
         `;
@@ -88,14 +88,86 @@ const displayPetsCardData = (pets) => {
   });
 };
 
+
+const loadDetailsModalData = async(petId) =>{
+    const modalContainer = document.getElementById('modalContainer');
+    my_modal_5.showModal()
+    const res = await fetch(`https://openapi.programming-hero.com/api/peddy/pet/${petId}`)
+    const data = await res.json()
+    console.log(data.petData);
+     const {
+      breed,
+      gender,
+      price,
+      image,
+      date_of_birth,
+      pet_name,
+      pet_details,
+      vaccinated_status,
+    } = data.petData
+  modalContainer.innerHTML = '';
+  const div = document.createElement('div');
+  div.classList ='card card-compact bg-base-100   '
+  div.innerHTML = `
+          <figure>
+                  <img
+                    src="${image}"
+                    alt="Shoes" />
+                </figure>
+              <div class='px-2 py-5'>
+                  <h2 class="card-title font-bold">${pet_name}</h2>
+                <div class=' grid grid-cols-2 gap-2 items-center  '>
+                  <p class="">
+                  <i class="fa-solid fa-border-all"></i> Breed: ${
+                    breed ? breed : "Not Available"
+                  }
+                </p>
+                 <p class="">
+                 <i class="fa-regular fa-calendar"></i> Birth: ${
+                   date_of_birth ? date_of_birth : "Not Available"
+                 }
+                </p>
+                 <p class="">
+                 <i class="fa-solid fa-mercury"></i> Gender: ${
+                   gender ? gender : "Not Available"
+                 }
+                </p>
+                 <p class="">
+                 <i class="fa-solid fa-mercury"></i> Price: ${
+                   price ? price : "Not Available"
+                 }
+                </p>
+                </div>
+                <p class="">
+                 <i class="fa-solid fa-mercury"></i> Vaccinated status: ${
+                   vaccinated_status ? vaccinated_status : "Not Available"
+                 }
+                </p>
+
+                <p class='font-bold'>Details Information</p>
+                <p>${pet_details}</p>
+                 <div class="flex  justify-center">
+            <div class="modal-action">
+                <form method="dialog">
+                  <button class="btn w-96 border-green-300 border">Close</button>
+                </form>
+              </div>
+          </div>
+  `;
+  modalContainer.append(div);
+
+}
+
+
 const loadCategoryHandelarData = async (category) => {
-  console.log(category);
-  const res = await fetch(
-    `https://openapi.programming-hero.com/api/peddy/category/${category}`
-  );
-  const data = await res.json();
-  displayPetsCardData(data.data);
-};
+    console.log(category);
+    const res = await fetch(
+      `https://openapi.programming-hero.com/api/peddy/category/${category}`
+    );
+    const data = await res.json();
+    displayPetsCardData(data.data);
+  };
+
 
 // Like button
 
